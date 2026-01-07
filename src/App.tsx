@@ -28,9 +28,9 @@ const App = () => (
           <Route path="/agents" element={<Agents />} />
           <Route path="/formations" element={<Formations />} />
           <Route path="/methode" element={<Methode />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:slug" element={<Blog />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogArticle />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

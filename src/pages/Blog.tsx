@@ -4,94 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
+import { articles, categories, popularTags, getFeaturedArticle } from "@/data/articles";
 
-const featuredArticle = {
-  id: "guide-complet-agents-ia-2024",
-  title: "Guide Complet des Agents IA en 2024 : Révolutionnez Votre Entreprise",
-  excerpt: "Découvrez comment les agents IA transforment les PME françaises. De la prospection automatisée à la gestion client, explorez les meilleures stratégies pour intégrer l'intelligence artificielle dans votre activité.",
-  image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&auto=format&fit=crop",
-  category: "Agents IA",
-  date: "5 janvier 2025",
-  readTime: "12 min",
-  tags: ["Agents IA", "Automatisation", "PME", "Productivité"]
-};
-
-const articles = [
-  {
-    id: "chatgpt-vs-claude-comparatif",
-    title: "ChatGPT vs Claude vs Gemini : Quel Assistant IA Choisir en 2025 ?",
-    excerpt: "Comparatif détaillé des meilleures plateformes IA. Performances, tarifs, cas d'usage : tout ce qu'il faut savoir pour faire le bon choix.",
-    image: "https://images.unsplash.com/photo-1676299081847-824916de030a?w=400&auto=format&fit=crop",
-    category: "Plateformes IA",
-    date: "3 janvier 2025",
-    readTime: "8 min",
-    tags: ["ChatGPT", "Claude", "Gemini", "Comparatif"]
-  },
-  {
-    id: "automatiser-prospection-ia",
-    title: "Comment Automatiser sa Prospection avec l'IA : Guide Pratique",
-    excerpt: "Apprenez à utiliser les agents IA pour générer des leads qualifiés 24h/24. Stratégies éprouvées et outils recommandés.",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&auto=format&fit=crop",
-    category: "Automatisation",
-    date: "1 janvier 2025",
-    readTime: "10 min",
-    tags: ["Prospection", "Leads", "Automatisation", "Ventes"]
-  },
-  {
-    id: "meilleures-ia-redaction",
-    title: "Les 10 Meilleures IA pour la Rédaction de Contenu en 2025",
-    excerpt: "De Jasper à Copy.ai, découvrez les outils IA qui transforment la création de contenu. Tests, tarifs et recommandations.",
-    image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=400&auto=format&fit=crop",
-    category: "Outils IA",
-    date: "28 décembre 2024",
-    readTime: "7 min",
-    tags: ["Rédaction", "Contenu", "Marketing", "Outils"]
-  },
-  {
-    id: "ia-generative-entreprise",
-    title: "L'IA Générative en Entreprise : Opportunités et Défis",
-    excerpt: "Comment intégrer l'IA générative dans vos processus métier ? Retours d'expérience et bonnes pratiques pour les dirigeants.",
-    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&auto=format&fit=crop",
-    category: "Stratégie IA",
-    date: "25 décembre 2024",
-    readTime: "9 min",
-    tags: ["IA Générative", "Stratégie", "Transformation", "Direction"]
-  },
-  {
-    id: "midjourney-dalle-stable-diffusion",
-    title: "Midjourney, DALL-E, Stable Diffusion : Quelle IA pour Vos Visuels ?",
-    excerpt: "Comparatif complet des générateurs d'images IA. Qualité, style, prix : trouvez l'outil adapté à vos besoins créatifs.",
-    image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&auto=format&fit=crop",
-    category: "IA Créative",
-    date: "22 décembre 2024",
-    readTime: "6 min",
-    tags: ["Midjourney", "DALL-E", "Images", "Design"]
-  },
-  {
-    id: "agent-ia-service-client",
-    title: "Créer un Agent IA pour Votre Service Client : Étape par Étape",
-    excerpt: "Guide technique pour déployer un chatbot IA performant. De la conception à l'intégration, maîtrisez chaque étape.",
-    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&auto=format&fit=crop",
-    category: "Agents IA",
-    date: "20 décembre 2024",
-    readTime: "15 min",
-    tags: ["Chatbot", "Service Client", "Intégration", "Tutorial"]
-  }
-];
-
-const categories = [
-  { name: "Tous", count: 24 },
-  { name: "Agents IA", count: 8 },
-  { name: "Plateformes IA", count: 6 },
-  { name: "Automatisation", count: 5 },
-  { name: "Outils IA", count: 3 },
-  { name: "Stratégie IA", count: 2 }
-];
-
-const popularTags = [
-  "ChatGPT", "Agents IA", "Automatisation", "PME", "Productivité", 
-  "Claude", "Midjourney", "Prospection", "Service Client", "Rédaction IA"
-];
+const featuredArticle = getFeaturedArticle();
 
 const Blog = () => {
   return (
