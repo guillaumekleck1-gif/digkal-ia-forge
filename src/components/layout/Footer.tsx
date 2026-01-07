@@ -3,16 +3,16 @@ import logoDigkal from "@/assets/logo-digkal.jpg";
 
 const footerLinks = {
   solutions: [
-    { name: "Logiciels IA", href: "#solutions" },
-    { name: "Agents IA", href: "#agents" },
-    { name: "Automatisation", href: "#solutions" },
-    { name: "Formations", href: "#formations" },
+    { name: "Logiciels IA", href: "/solutions" },
+    { name: "Agents IA", href: "/agents" },
+    { name: "Automatisation", href: "/solutions" },
+    { name: "Formations", href: "/formations" },
   ],
   entreprise: [
-    { name: "À propos", href: "#" },
-    { name: "Méthode", href: "#securite" },
-    { name: "Cas d'usage", href: "#" },
-    { name: "Contact", href: "#contact" },
+    { name: "À propos", href: "/" },
+    { name: "Méthode", href: "/methode" },
+    { name: "Sécurité", href: "/methode" },
+    { name: "Contact", href: "/contact" },
   ],
   legal: [
     { name: "Mentions légales", href: "#" },
@@ -51,12 +51,12 @@ export function Footer() {
             <ul className="space-y-3">
               {footerLinks.solutions.map((link) => (
                 <li key={link.name}>
-                  <a 
-                    href={link.href}
+                  <Link 
+                    to={link.href}
                     className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -68,12 +68,12 @@ export function Footer() {
             <ul className="space-y-3">
               {footerLinks.entreprise.map((link) => (
                 <li key={link.name}>
-                  <a 
-                    href={link.href}
+                  <Link 
+                    to={link.href}
                     className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -85,12 +85,12 @@ export function Footer() {
             <ul className="space-y-3">
               {footerLinks.legal.map((link) => (
                 <li key={link.name}>
-                  <a 
-                    href={link.href}
+                  <Link 
+                    to={link.href}
                     className="text-sm text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
