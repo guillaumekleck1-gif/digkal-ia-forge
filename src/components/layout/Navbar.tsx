@@ -8,7 +8,8 @@ const navLinks = [
   { name: "Solutions IA", href: "/solutions" },
   { name: "Agents IA", href: "/agents" },
   { name: "Formations", href: "/formations" },
-  { name: "Méthode & Sécurité", href: "/methode" },
+  { name: "Blog IA", href: "/blog" },
+  { name: "Méthode", href: "/methode" },
   { name: "Contact", href: "/contact" },
 ];
 
