@@ -1,19 +1,20 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import logoDigkal from "@/assets/logo-digkal.jpg";
 
 const navLinks = [
-  { name: "Solutions IA", href: "#solutions" },
-  { name: "Agents IA", href: "#agents" },
-  { name: "Formations", href: "#formations" },
-  { name: "Sécurité", href: "#securite" },
-  { name: "Contact", href: "#contact" },
+  { name: "Solutions IA", href: "/solutions" },
+  { name: "Agents IA", href: "/agents" },
+  { name: "Formations", href: "/formations" },
+  { name: "Méthode & Sécurité", href: "/methode" },
+  { name: "Contact", href: "/contact" },
 ];
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass-card border-b border-border/30">
@@ -38,22 +39,32 @@ export function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.name}
-                href={link.href}
-                className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-sm font-medium relative group"
+                to={link.href}
+                className={`text-sm font-medium relative group transition-colors duration-200 ${
+                  location.pathname === link.href
+                    ? "text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
               >
                 {link.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
-              </a>
+                <span 
+                  className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-300 ${
+                    location.pathname === link.href ? "w-full" : "w-0 group-hover:w-full"
+                  }`} 
+                />
+              </Link>
             ))}
           </div>
 
           {/* CTA Button */}
           <div className="hidden lg:flex items-center gap-4">
-            <Button variant="neon" size="lg">
-              Parler à un expert IA
-            </Button>
+            <Link to="/contact">
+              <Button variant="neon" size="lg">
+                Parler à un expert IA
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -70,18 +81,24 @@ export function Navbar() {
           <div className="lg:hidden py-4 border-t border-border/30 animate-slide-up">
             <div className="flex flex-col gap-4">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
-                  className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-sm font-medium py-2"
+                  to={link.href}
+                  className={`text-sm font-medium py-2 transition-colors duration-200 ${
+                    location.pathname === link.href
+                      ? "text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
                   onClick={() => setIsOpen(false)}
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
-              <Button variant="hero" size="lg" className="mt-4">
-                Parler à un expert IA
-              </Button>
+              <Link to="/contact" onClick={() => setIsOpen(false)}>
+                <Button variant="hero" size="lg" className="mt-4 w-full">
+                  Parler à un expert IA
+                </Button>
+              </Link>
             </div>
           </div>
         )}
