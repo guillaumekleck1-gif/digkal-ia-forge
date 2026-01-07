@@ -11,6 +11,7 @@ import Formations from "./pages/Formations";
 import Methode from "./pages/Methode";
 import Contact from "./pages/Contact";
 import Blog from "./pages/Blog";
+import BlogArticle from "./pages/BlogArticle";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
