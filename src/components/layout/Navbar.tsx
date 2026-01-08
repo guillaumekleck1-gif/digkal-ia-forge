@@ -99,7 +99,13 @@ export function Navbar() {
                       ? "text-foreground"
                       : "text-muted-foreground hover:text-foreground"
                   }`}
-                  onClick={() => setIsOpen(false)}
+                  onClick={(e) => {
+                    setIsOpen(false);
+                    if (location.pathname === link.href) {
+                      e.preventDefault();
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }
+                  }}
                 >
                   {link.name}
                 </Link>
