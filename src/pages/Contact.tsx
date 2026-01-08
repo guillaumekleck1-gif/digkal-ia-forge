@@ -11,12 +11,12 @@ const contactInfo = [
   {
     icon: Phone,
     title: "Téléphone",
-    details: ["+33 (0)X XX XX XX XX"],
+    details: ["06 78 01 57 32"],
   },
   {
     icon: Mail,
     title: "Email",
-    details: ["contact@digkal.com"],
+    details: ["contact@digkal.fr"],
   },
   {
     icon: Clock,
