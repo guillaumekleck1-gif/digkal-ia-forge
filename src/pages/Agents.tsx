@@ -1,8 +1,9 @@
 import { Layout } from "@/components/layout/Layout";
 import { AgentsSection } from "@/components/sections/AgentsSection";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Check, Lock, Zap, RefreshCw, Database, Shield, User, HeadphonesIcon, ShoppingCart, Calculator, FileText, Calendar, MessageSquare, TrendingUp } from "lucide-react";
+import { ArrowRight, Check, Lock, Zap, RefreshCw, Database, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
+import { agentModels } from "@/data/agentModels";
 
 const features = [
   {
@@ -34,65 +35,6 @@ const benefits = [
   "Scalabilité illimitée",
   "ROI mesurable dès le premier mois",
   "Conformité RGPD garantie",
-];
-
-const agentModels = [
-  {
-    icon: User,
-    name: "Secrétaire IA",
-    description: "Gestion d'agenda, prise de rendez-vous, filtrage d'emails, rappels automatiques.",
-    useCases: ["Planification de réunions", "Tri des emails prioritaires", "Suivi des tâches"],
-    color: "from-blue-500 to-cyan-500",
-  },
-  {
-    icon: HeadphonesIcon,
-    name: "Support Client IA",
-    description: "Réponses instantanées aux questions clients, escalade intelligente, satisfaction 24/7.",
-    useCases: ["FAQ automatisées", "Tickets niveau 1", "Suivi de commandes"],
-    color: "from-green-500 to-emerald-500",
-  },
-  {
-    icon: ShoppingCart,
-    name: "Commercial IA",
-    description: "Qualification de leads, relances automatiques, recommandations personnalisées.",
-    useCases: ["Qualification prospects", "Devis automatiques", "Relances intelligentes"],
-    color: "from-orange-500 to-amber-500",
-  },
-  {
-    icon: Calculator,
-    name: "Comptable IA",
-    description: "Traitement des factures, rapprochement bancaire, alertes anomalies.",
-    useCases: ["Saisie factures", "Relances impayés", "Reporting financier"],
-    color: "from-purple-500 to-violet-500",
-  },
-  {
-    icon: FileText,
-    name: "Juriste IA",
-    description: "Analyse de contrats, veille réglementaire, génération de documents légaux.",
-    useCases: ["Revue de contrats", "Conformité RGPD", "Clauses types"],
-    color: "from-red-500 to-rose-500",
-  },
-  {
-    icon: TrendingUp,
-    name: "Analyste IA",
-    description: "Analyse de données, génération de rapports, insights et prédictions.",
-    useCases: ["Tableaux de bord", "Prévisions ventes", "KPIs automatisés"],
-    color: "from-indigo-500 to-blue-500",
-  },
-  {
-    icon: Calendar,
-    name: "RH IA",
-    description: "Onboarding, réponses collaborateurs, gestion des congés et absences.",
-    useCases: ["Questions RH", "Processus onboarding", "Suivi congés"],
-    color: "from-pink-500 to-fuchsia-500",
-  },
-  {
-    icon: MessageSquare,
-    name: "Formateur IA",
-    description: "Formation personnalisée, quiz adaptatifs, suivi de progression.",
-    useCases: ["Parcours formation", "Évaluation compétences", "Coaching continu"],
-    color: "from-teal-500 to-cyan-500",
-  },
 ];
 
 export default function Agents() {
@@ -146,9 +88,10 @@ export default function Agents() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
             {agentModels.map((agent) => (
-              <div 
-                key={agent.name} 
-                className="glass-card p-6 hover:border-primary/50 transition-all duration-300 group hover:-translate-y-1"
+              <Link 
+                key={agent.slug}
+                to={`/agents/${agent.slug}`}
+                className="glass-card p-6 hover:border-primary/50 transition-all duration-300 group hover:-translate-y-1 block"
               >
                 <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${agent.color} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300`}>
                   <agent.icon className="w-7 h-7 text-white" />
@@ -163,7 +106,11 @@ export default function Agents() {
                     </div>
                   ))}
                 </div>
-              </div>
+                <div className="mt-4 text-primary text-sm font-medium flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  Voir les détails
+                  <ArrowRight className="w-4 h-4" />
+                </div>
+              </Link>
             ))}
           </div>
 
