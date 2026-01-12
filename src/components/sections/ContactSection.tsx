@@ -26,7 +26,8 @@ export function ContactSection() {
     setLoading(true);
 
     try {
-      const { error } = await supabase
+      // Save to database
+      const { error: dbError } = await supabase
         .from("contact_requests")
         .insert({
           company: formData.company,
@@ -37,7 +38,17 @@ export function ContactSection() {
           project_description: formData.project_description || null,
         });
 
-      if (error) throw error;
+      if (dbError) throw dbError;
+
+      // Send confirmation emails
+      const { error: emailError } = await supabase.functions.invoke("send-contact-email", {
+        body: formData,
+      });
+
+      if (emailError) {
+        console.warn("Email sending failed:", emailError);
+        // Continue anyway - form was saved
+      }
 
       setSubmitted(true);
     } catch (error) {
