@@ -3,14 +3,53 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Send, CheckCircle } from "lucide-react";
+import { Send, CheckCircle, Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 export function ContactSection() {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [formData, setFormData] = useState({
+    company: "",
+    role: "",
+    email: "",
+    phone: "",
+    ai_objective: "",
+    project_description: "",
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+
+    try {
+      const { error } = await supabase
+        .from("contact_requests")
+        .insert({
+          company: formData.company,
+          role: formData.role,
+          email: formData.email,
+          phone: formData.phone || null,
+          ai_objective: formData.ai_objective,
+          project_description: formData.project_description || null,
+        });
+
+      if (error) throw error;
+
+      setSubmitted(true);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast({
+        title: "Erreur",
+        description: "Une erreur est survenue. Veuillez réessayer.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (submitted) {
@@ -99,13 +138,15 @@ export function ContactSection() {
                   <label className="text-sm font-medium">Société *</label>
                   <Input 
                     placeholder="Nom de votre entreprise" 
-                    required 
+                    required
+                    value={formData.company}
+                    onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                     className="bg-muted/50 border-border focus:border-primary"
                   />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Votre rôle *</label>
-                  <Select required>
+                  <Select required value={formData.role} onValueChange={(value) => setFormData({ ...formData, role: value })}>
                     <SelectTrigger className="bg-muted/50 border-border focus:border-primary">
                       <SelectValue placeholder="Sélectionner" />
                     </SelectTrigger>
@@ -126,7 +167,9 @@ export function ContactSection() {
                   <Input 
                     type="email" 
                     placeholder="vous@entreprise.com" 
-                    required 
+                    required
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="bg-muted/50 border-border focus:border-primary"
                   />
                 </div>
@@ -134,7 +177,9 @@ export function ContactSection() {
                   <label className="text-sm font-medium">Téléphone</label>
                   <Input 
                     type="tel" 
-                    placeholder="+33 6 00 00 00 00" 
+                    placeholder="+33 6 00 00 00 00"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     className="bg-muted/50 border-border focus:border-primary"
                   />
                 </div>
@@ -142,7 +187,7 @@ export function ContactSection() {
 
               <div className="space-y-2">
                 <label className="text-sm font-medium">Objectif IA *</label>
-                <Select required>
+                <Select required value={formData.ai_objective} onValueChange={(value) => setFormData({ ...formData, ai_objective: value })}>
                   <SelectTrigger className="bg-muted/50 border-border focus:border-primary">
                     <SelectValue placeholder="Que souhaitez-vous automatiser ?" />
                   </SelectTrigger>
@@ -162,13 +207,19 @@ export function ContactSection() {
                 <Textarea 
                   placeholder="Quels processus souhaitez-vous automatiser ? Quels outils utilisez-vous actuellement ? Quels résultats attendez-vous ?"
                   rows={4}
+                  value={formData.project_description}
+                  onChange={(e) => setFormData({ ...formData, project_description: e.target.value })}
                   className="bg-muted/50 border-border focus:border-primary resize-none"
                 />
               </div>
 
-              <Button variant="hero" size="lg" className="w-full">
-                <Send className="w-5 h-5 mr-2" />
-                Étudier mon projet IA
+              <Button variant="hero" size="lg" className="w-full" disabled={loading}>
+                {loading ? (
+                  <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                ) : (
+                  <Send className="w-5 h-5 mr-2" />
+                )}
+                {loading ? "Envoi en cours..." : "Étudier mon projet IA"}
               </Button>
 
               <p className="text-xs text-muted-foreground text-center">
