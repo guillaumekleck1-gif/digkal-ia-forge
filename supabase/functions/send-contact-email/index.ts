@@ -9,6 +9,21 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
+// HTML escape function to prevent XSS
+function escapeHtml(text: string | undefined | null): string {
+  if (!text) return "";
+  return text.replace(/[&<>"']/g, (char) => {
+    const map: Record<string, string> = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    };
+    return map[char];
+  });
+}
+
 interface ContactEmailRequest {
   company: string;
   role: string;
@@ -27,20 +42,28 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const { company, role, email, phone, ai_objective, project_description }: ContactEmailRequest = await req.json();
 
+    // Escape all user inputs to prevent XSS
+    const safeCompany = escapeHtml(company);
+    const safeRole = escapeHtml(role);
+    const safeEmail = escapeHtml(email);
+    const safePhone = escapeHtml(phone);
+    const safeAiObjective = escapeHtml(ai_objective);
+    const safeProjectDescription = escapeHtml(project_description);
+
     // Email to DIGKAL team
     const teamEmailResponse = await resend.emails.send({
       from: "DIGKAL <noreply@digkal.fr>",
       to: ["contact@digkal.fr"],
-      subject: `Nouvelle demande de contact - ${company}`,
+      subject: `Nouvelle demande de contact - ${safeCompany}`,
       html: `
         <h1>Nouvelle demande de contact</h1>
-        <p><strong>Société :</strong> ${company}</p>
-        <p><strong>Rôle :</strong> ${role}</p>
-        <p><strong>Email :</strong> ${email}</p>
-        <p><strong>Téléphone :</strong> ${phone || "Non renseigné"}</p>
-        <p><strong>Objectif IA :</strong> ${ai_objective}</p>
+        <p><strong>Société :</strong> ${safeCompany}</p>
+        <p><strong>Rôle :</strong> ${safeRole}</p>
+        <p><strong>Email :</strong> ${safeEmail}</p>
+        <p><strong>Téléphone :</strong> ${safePhone || "Non renseigné"}</p>
+        <p><strong>Objectif IA :</strong> ${safeAiObjective}</p>
         <p><strong>Description du projet :</strong></p>
-        <p>${project_description || "Non renseigné"}</p>
+        <p>${safeProjectDescription || "Non renseigné"}</p>
       `,
     });
 
@@ -49,11 +72,11 @@ const handler = async (req: Request): Promise<Response> => {
     // Confirmation email to the user
     const userEmailResponse = await resend.emails.send({
       from: "DIGKAL <noreply@digkal.fr>",
-      to: [email],
+      to: [email], // Use original email for sending, not escaped
       subject: "Nous avons bien reçu votre demande - DIGKAL",
       html: `
-        <h1>Merci pour votre demande, ${company} !</h1>
-        <p>Nous avons bien reçu votre demande concernant : <strong>${ai_objective}</strong></p>
+        <h1>Merci pour votre demande, ${safeCompany} !</h1>
+        <p>Nous avons bien reçu votre demande concernant : <strong>${safeAiObjective}</strong></p>
         <p>Un expert IA de notre équipe vous contactera dans les plus brefs délais pour étudier votre projet.</p>
         <br>
         <p>À très bientôt,</p>
