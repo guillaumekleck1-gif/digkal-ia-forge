@@ -29,7 +29,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Email to DIGKAL team
     const teamEmailResponse = await resend.emails.send({
-      from: "DIGKAL <onboarding@resend.dev>",
+      from: "DIGKAL <noreply@digkal.fr>",
       to: ["contact@digkal.fr"],
       subject: `Nouvelle demande de contact - ${company}`,
       html: `
@@ -48,7 +48,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Confirmation email to the user
     const userEmailResponse = await resend.emails.send({
-      from: "DIGKAL <onboarding@resend.dev>",
+      from: "DIGKAL <noreply@digkal.fr>",
       to: [email],
       subject: "Nous avons bien reçu votre demande - DIGKAL",
       html: `
