@@ -5,19 +5,41 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, Lock } from "lucide-react";
+import { Loader2, Lock, UserPlus } from "lucide-react";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
-  const { signIn } = useAuth();
+  const [isSignUp, setIsSignUp] = useState(false);
+  const { signIn, signUp } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
+    if (isSignUp) {
+      const { error } = await signUp(email, password, fullName);
+      if (error) {
+        toast({
+          title: "Erreur d'inscription",
+          description: error.message,
+          variant: "destructive",
+        });
+        setLoading(false);
+        return;
+      }
+      toast({
+        title: "Inscription réussie",
+        description: "Votre compte a été créé. Connectez-vous maintenant.",
+      });
+      setIsSignUp(false);
+      setLoading(false);
+      return;
+    }
 
     const { error } = await signIn(email, password);
 
@@ -49,16 +71,38 @@ export default function AdminLogin() {
         <div className="glass-card p-8">
           <div className="flex justify-center mb-6">
             <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center">
-              <Lock className="w-8 h-8 text-primary" />
+              {isSignUp ? (
+                <UserPlus className="w-8 h-8 text-primary" />
+              ) : (
+                <Lock className="w-8 h-8 text-primary" />
+              )}
             </div>
           </div>
 
-          <h1 className="text-2xl font-bold text-center mb-2">Espace Admin</h1>
+          <h1 className="text-2xl font-bold text-center mb-2">
+            {isSignUp ? "Créer un compte" : "Espace Admin"}
+          </h1>
           <p className="text-muted-foreground text-center mb-8">
-            Connectez-vous pour accéder au tableau de bord
+            {isSignUp
+              ? "Créez votre compte administrateur"
+              : "Connectez-vous pour accéder au tableau de bord"}
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-6">
+            {isSignUp && (
+              <div className="space-y-2">
+                <Label htmlFor="fullName">Nom complet</Label>
+                <Input
+                  id="fullName"
+                  type="text"
+                  placeholder="Jean Dupont"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  className="bg-muted/50"
+                />
+              </div>
+            )}
+
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -89,9 +133,27 @@ export default function AdminLogin() {
               {loading ? (
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />
               ) : null}
-              {loading ? "Connexion..." : "Se connecter"}
+              {loading
+                ? isSignUp
+                  ? "Inscription..."
+                  : "Connexion..."
+                : isSignUp
+                ? "S'inscrire"
+                : "Se connecter"}
             </Button>
           </form>
+
+          <div className="mt-6 text-center">
+            <button
+              type="button"
+              onClick={() => setIsSignUp(!isSignUp)}
+              className="text-sm text-primary hover:underline"
+            >
+              {isSignUp
+                ? "Déjà un compte ? Se connecter"
+                : "Créer un compte admin"}
+            </button>
+          </div>
 
           <p className="text-xs text-muted-foreground text-center mt-6">
             Accès réservé aux administrateurs DIGKAL
