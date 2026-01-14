@@ -40,6 +40,29 @@ export function ContactSection() {
 
       if (dbError) throw dbError;
 
+      // Send to n8n webhook
+      const n8nWebhookUrl = import.meta.env.VITE_N8N_WEBHOOK_URL;
+      if (n8nWebhookUrl) {
+        try {
+          await fetch(n8nWebhookUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            mode: "no-cors",
+            body: JSON.stringify({
+              ...formData,
+              timestamp: new Date().toISOString(),
+              source: "digkal-website",
+            }),
+          });
+          console.log("n8n webhook triggered successfully");
+        } catch (webhookError) {
+          console.warn("n8n webhook failed:", webhookError);
+          // Continue anyway - form was saved
+        }
+      }
+
       // Send confirmation emails
       const { error: emailError } = await supabase.functions.invoke("send-contact-email", {
         body: formData,
