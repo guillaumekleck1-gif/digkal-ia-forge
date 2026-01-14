@@ -41,18 +41,51 @@ export function ContactSection() {
       if (dbError) throw dbError;
 
       // Send to n8n webhook via edge function (avoids CORS issues)
+      let webhookFailed = false;
+      let webhookErrorDetails = "";
       try {
-        const { error: webhookError } = await supabase.functions.invoke("trigger-n8n-webhook", {
+        const { data, error: webhookError } = await supabase.functions.invoke("trigger-n8n-webhook", {
           body: formData,
         });
+        
         if (webhookError) {
-          console.warn("n8n webhook failed:", webhookError);
+          webhookFailed = true;
+          webhookErrorDetails = `Edge function error: ${webhookError.message}`;
+          console.error("n8n webhook failed (edge function error):", {
+            error: webhookError,
+            context: webhookError.context,
+          });
+        } else if (data && !data.success) {
+          webhookFailed = true;
+          webhookErrorDetails = `Webhook error: ${data.error || "Unknown error"}`;
+          console.error("n8n webhook failed (webhook response):", {
+            response: data,
+            timestamp: new Date().toISOString(),
+          });
         } else {
           console.log("n8n webhook triggered successfully");
         }
       } catch (webhookError) {
-        console.warn("n8n webhook failed:", webhookError);
-        // Continue anyway - form was saved
+        webhookFailed = true;
+        webhookErrorDetails = webhookError instanceof Error ? webhookError.message : "Unknown error";
+        console.error("n8n webhook failed (exception):", {
+          error: webhookError,
+          timestamp: new Date().toISOString(),
+        });
+      }
+
+      // Show warning toast if webhook failed but continue (data was saved)
+      if (webhookFailed) {
+        toast({
+          title: "Notification partielle",
+          description: "Votre demande a été enregistrée, mais la notification automatique a échoué. Notre équipe vous contactera sous peu.",
+          variant: "default",
+        });
+        console.error("WEBHOOK_DEBUG:", {
+          formData,
+          errorDetails: webhookErrorDetails,
+          timestamp: new Date().toISOString(),
+        });
       }
 
       // Send confirmation emails
