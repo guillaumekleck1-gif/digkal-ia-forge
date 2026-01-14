@@ -40,27 +40,19 @@ export function ContactSection() {
 
       if (dbError) throw dbError;
 
-      // Send to n8n webhook
-      const n8nWebhookUrl = import.meta.env.VITE_N8N_WEBHOOK_URL;
-      if (n8nWebhookUrl) {
-        try {
-          await fetch(n8nWebhookUrl, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            mode: "no-cors",
-            body: JSON.stringify({
-              ...formData,
-              timestamp: new Date().toISOString(),
-              source: "digkal-website",
-            }),
-          });
-          console.log("n8n webhook triggered successfully");
-        } catch (webhookError) {
+      // Send to n8n webhook via edge function (avoids CORS issues)
+      try {
+        const { error: webhookError } = await supabase.functions.invoke("trigger-n8n-webhook", {
+          body: formData,
+        });
+        if (webhookError) {
           console.warn("n8n webhook failed:", webhookError);
-          // Continue anyway - form was saved
+        } else {
+          console.log("n8n webhook triggered successfully");
         }
+      } catch (webhookError) {
+        console.warn("n8n webhook failed:", webhookError);
+        // Continue anyway - form was saved
       }
 
       // Send confirmation emails
