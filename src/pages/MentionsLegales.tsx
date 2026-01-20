@@ -36,6 +36,13 @@ export default function MentionsLegales() {
                   - Site officiel du groupe
                 </li>
                 <li>
+                  <strong className="text-foreground">Digkal Logiciel :</strong>{" "}
+                  <a href="https://www.digkal-logiciel.fr" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                    digkal-logiciel.fr
+                  </a>{" "}
+                  - Développement de logiciels sur mesure
+                </li>
+                <li>
                   <strong className="text-foreground">Création de sites web :</strong>{" "}
                   <a href="https://digkal-web.fr" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                     digkal-web.fr
