@@ -17,6 +17,7 @@ import BlogArticle from "./pages/BlogArticle";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
+import MentionsLegales from "./pages/MentionsLegales";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,7 @@ const App = () => (
             <Route path="/blog/:slug" element={<BlogArticle />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/mentions-legales" element={<MentionsLegales />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
