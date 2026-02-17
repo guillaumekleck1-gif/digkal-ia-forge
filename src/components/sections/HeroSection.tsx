@@ -89,7 +89,7 @@ export function HeroSection() {
 
       {/* Spline 3D Animation */}
       <div className="w-full h-[500px] md:h-[600px] relative z-10 -mt-8">
-        <spline-viewer url="https://prod.spline.design/rEcixPrhReI-XjUL/scene.splinecode" style={{ width: '100%', height: '100%' }} />
+        <spline-viewer url="https://prod.spline.design/rEcixPrhReI-XjUL/scene.splinecode" style={{ width: '100%', height: '100%', background: 'transparent' }} />
       </div>
 
       {/* Scroll indicator */}
