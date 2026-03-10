@@ -69,12 +69,20 @@ export default function Formations() {
               Des formations sur-mesure pour dirigeants et équipes. 
               Comprenez, utilisez et maîtrisez l'IA de manière responsable et efficace.
             </p>
-            <Link to="/contact">
-              <Button variant="hero" size="xl">
-                Demander un programme
-                <ArrowRight className="w-5 h-5" />
-              </Button>
-            </Link>
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Link to="/contact">
+                <Button variant="hero" size="xl">
+                  Demander un programme
+                  <ArrowRight className="w-5 h-5" />
+                </Button>
+              </Link>
+              <a href="/documents/formation-ia-business.pdf" target="_blank" rel="noopener noreferrer">
+                <Button variant="neon" size="xl">
+                  En savoir plus
+                  <ArrowRight className="w-5 h-5" />
+                </Button>
+              </a>
+            </div>
           </div>
         </div>
       </section>
