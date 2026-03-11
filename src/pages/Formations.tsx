@@ -76,7 +76,7 @@ export default function Formations() {
                   <ArrowRight className="w-5 h-5" />
                 </Button>
               </Link>
-              <a href="/documents/formation-ia-business.pdf" target="_blank" rel="noopener noreferrer">
+              <a href="/documents/formation-ia-business.pdf">
                 <Button variant="neon" size="xl">
                   En savoir plus
                   <ArrowRight className="w-5 h-5" />
