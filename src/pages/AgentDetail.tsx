@@ -11,7 +11,7 @@ export default function AgentDetail() {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [displayedMessages, setDisplayedMessages] = useState<typeof agent.demoMessages>([]);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (!agent) return;
