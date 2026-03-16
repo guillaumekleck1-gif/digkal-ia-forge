@@ -46,7 +46,7 @@ const formationDetails = [
 const stats = [
   { icon: Users, value: "7", label: "Personnes formées" },
   { icon: Target, value: "98%", label: "Satisfaction" },
-  { icon: Award, value: "50+", label: "Entreprises accompagnées" },
+  { icon: Award, value: "1", label: "Entreprises accompagnées" },
 ];
 
 export default function Formations() {
