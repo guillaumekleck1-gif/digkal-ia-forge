@@ -88,10 +88,10 @@ export default function Formations() {
         </div>
       </section>
 
-      {/* Stats */}
+      {/* Stats & Qualiopi */}
       <section className="py-12 relative">
         <div className="container mx-auto px-4">
-          <div className="flex flex-wrap justify-center gap-12">
+          <div className="flex flex-wrap justify-center items-center gap-12">
             {stats.map((stat) => (
               <div key={stat.label} className="text-center">
                 <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
@@ -101,6 +101,12 @@ export default function Formations() {
                 <div className="text-sm text-muted-foreground">{stat.label}</div>
               </div>
             ))}
+            <div className="text-center">
+              <div className="bg-white rounded-xl p-4 shadow-sm">
+                <img src={qualiopiLogo} alt="Certification Qualiopi - Processus certifié" className="h-20 w-auto" />
+              </div>
+              <div className="text-sm text-muted-foreground mt-3">Certifié Qualiopi</div>
+            </div>
           </div>
         </div>
       </section>
