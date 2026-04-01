@@ -3,6 +3,7 @@ import { FormationsSection } from "@/components/sections/FormationsSection";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle, Clock, Users, Target, Award } from "lucide-react";
 import { Link } from "react-router-dom";
+import qualiopiLogo from "@/assets/qualiopi.png";
 
 const formationDetails = [
   {
