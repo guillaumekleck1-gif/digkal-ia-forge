@@ -102,7 +102,7 @@ export default function Formations() {
               </div>
             ))}
             <div className="text-center">
-              <a href="https://certifopac.fr/qualiopi/certification/verification/?siren=984322198#webApp" target="_blank" rel="noopener noreferrer" className="bg-white rounded-xl p-4 shadow-sm inline-block hover:shadow-md transition-shadow">
+              <a href="https://certifopac.fr/qualiopi/certification/verification/?siren=984322198#webApp" target="_blank" rel="noopener noreferrer" className="bg-white rounded-xl p-4 shadow-sm inline-block hover:shadow-md transition-shadow px-[16px] py-[16px]">
                 <img src={qualiopiLogo} alt="Certification Qualiopi - Processus certifié" className="h-20 w-auto" />
               </a>
               <div className="text-sm text-muted-foreground mt-3">Certifié Qualiopi</div>
