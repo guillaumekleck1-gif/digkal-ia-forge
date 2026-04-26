@@ -3,7 +3,7 @@ import { FormationsSection } from "@/components/sections/FormationsSection";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle, Clock, Users, Target, Award } from "lucide-react";
 import { Link } from "react-router-dom";
-import qualiopiLogo from "@/assets/qualiopi.png";
+
 
 const formationDetails = [
   {
@@ -101,12 +101,6 @@ export default function Formations() {
                 <div className="text-sm text-muted-foreground">{stat.label}</div>
               </div>
             ))}
-            <div className="text-center">
-              <a href="https://certifopac.fr/qualiopi/certification/verification/?siren=984322198#webApp" target="_blank" rel="noopener noreferrer" className="inline-block hover:opacity-80 transition-opacity">
-                <img src={qualiopiLogo} alt="Certification Qualiopi - Processus certifié" className="h-20 w-auto" />
-              </a>
-              <div className="text-sm text-muted-foreground mt-3">Certifié Qualiopi</div>
-            </div>
           </div>
         </div>
       </section>
